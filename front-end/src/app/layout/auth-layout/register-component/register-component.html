@@ -1,0 +1,56 @@
+<div class="register-container">
+  <h2>Register</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        placeholder="Enter your name"
+        class="form-control"
+      />
+      <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="error-message">
+        <span *ngIf="registerForm.get('name')?.errors?.['required']">Name is required.</span>
+        <span *ngIf="registerForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters.</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        placeholder="Enter your email"
+        class="form-control"
+      />
+      <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error-message">
+        <span *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</span>
+        <span *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email.</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        formControlName="password"
+        placeholder="Enter your password"
+        class="form-control"
+      />
+      <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error-message">
+        <span *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</span>
+        <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters.</span>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary">Register</button>
+
+     <p style="color:red" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+  </form>
+
+   <p class="login-link">Already I have account? <button type="button" (click)="navigateToLogin()" class="link-button">Login here</button></p>
+</div>

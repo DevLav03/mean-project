@@ -1,0 +1,29 @@
+<div class="wrapper">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul *ngFor="let item of navItems">
+            <li><a [routerLink]="item.value">{{item.title}}</a></li>
+        </ul>
+    </div>
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <header>
+            <h1>Profile</h1>
+        </header>
+
+        <div class="profile">
+            <h2>Profile</h2>
+
+
+            <div class="profile-card">
+                <p><b>Name:</b> {{ userData.name }}</p>
+                <p><b>Email:</b> {{ userData.email }}</p>
+                <p><b>Role:</b> {{ userData.role }}</p>
+            </div>
+        </div>
+
+         <button type="submit" (onclick)="logout()"> Logout</button>
+
+    </div>
+</div>

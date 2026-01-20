@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+const authRoutes = require('./routes/auth.js');
 
 //Server Hosting
 const app = express();
@@ -20,7 +21,11 @@ app.get('/', (req, res) => {
   res.send('MEAN Backend Running');
 });
 
+// User Routes
+app.use('/api/auth', authRoutes);
+
 // Start Local Server
-app.listen(5000, () => {
-  console.log('Server running on port http://localhost:5000');
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port http://localhost:${PORT}`);
 });

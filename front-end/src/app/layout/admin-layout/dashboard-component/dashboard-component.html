@@ -1,0 +1,18 @@
+<div class="wrapper">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul *ngFor="let item of navItems">
+            <li><a [routerLink]="item.value">{{item.title}}</a></li>
+        </ul>
+    </div>
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <header>
+            <h1>Welcome to the Dashboard</h1>
+        </header>
+        <div class="info">
+            Your main content goes here, such as charts, tables, or forms.
+        </div>
+    </div>
+</div>
