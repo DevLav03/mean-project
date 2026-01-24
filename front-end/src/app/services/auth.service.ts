@@ -27,8 +27,6 @@ export class AuthService {
       'Pragma': 'no-cache'
     });
 
-    console.log( `Bearer ${token}`);
-
     return this.http.get(`${this.API}/auth/profile`, { headers });
   }
 

@@ -8,34 +8,6 @@ body {
     min-height: 100vh;
 }
 
-.sidebar {
-    width: 200px;
-    background-color: #333;
-    color: white;
-    padding: 20px;
-}
-
-.sidebar h2 {
-    margin-top: 0;
-}
-
-.sidebar ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.sidebar ul li a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    padding: 10px 0;
-    transition: background-color 0.3s;
-}
-
-.sidebar ul li a:hover {
-    background-color: #575757;
-}
-
 .main-content {
     flex-grow: 1;
     padding: 20px;
@@ -79,6 +51,24 @@ header {
 
 .sort-btn:hover {
   background: #125aa3;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+}
+
+.filters input,
+.filters select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  outline: none;
+}
+
+.filters input:focus,
+.filters select:focus {
+  border-color: #2563eb;
 }
 
 /* Card */

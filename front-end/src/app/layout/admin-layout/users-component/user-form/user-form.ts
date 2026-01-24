@@ -82,7 +82,7 @@ export class UserForm implements OnInit {
     const payload = this.registerForm.value;
 
     // 👉 CREATE
-    if (!this.user_id) {
+    if (this.user_id === '0') {
       this.auth.InsertUser(payload).subscribe({
         next: (res: any) => {
           this.errorMsg.set(res.message);

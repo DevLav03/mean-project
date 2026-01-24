@@ -68,6 +68,43 @@ router.get('/userdata/:id', token, async (req, res) => {
   }
 });
 
+//user add
+router.post('/userdata', async (req, res) => {
+
+  try {
+
+    console.log('REQ BODY:', req.body);
+    const { name, email, password } = req.body;
+
+    // 1. Check user already exists
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.json({ staus: 'failed', message: 'Email already registered' });
+    }
+
+    // 2. Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // 3. Save user
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword
+    });
+
+    await user.save();
+
+    res.json({
+      status: 'success',
+      message: 'Login successful'
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Data not saved' });
+  }
+});
+
 //User Update
 router.put('/userdata/:id', token, async (req, res) => {
   try {

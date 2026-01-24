@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { RouterModule } from '@angular/router';
 
+import { navbarComponent } from '../navbar-component/navbar-component';
+
 import { AuthService } from '../../../services/auth.service';
 import { TokenService } from '../../../services/token.service';
 import { Router } from '@angular/router';
@@ -11,19 +13,13 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-profile-component',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, navbarComponent],
   templateUrl: './profile-component.html',
   styleUrls: ['./profile-component.scss'],
 })
 export class ProfileComponent implements OnInit {
 
   user = signal<any | null>(null);
-
-  navItems = [
-    { title: 'Dashboard', value: '/dashboard' },
-    { title: 'User Data', value: '/users' },
-    { title: 'Profile', value: '/profile' }
-  ];
 
   constructor(private userService: AuthService, private router: Router, private tokenS: TokenService) { }
 

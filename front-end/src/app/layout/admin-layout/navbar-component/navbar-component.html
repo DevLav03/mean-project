@@ -1,0 +1,11 @@
+<div class="sidebar">
+  <h2>Admin Panel</h2>
+
+  <ul>
+    @for (item of filteredNavItems(); track item.value) {
+      <li>
+        <a [routerLink]="item.value">{{ item.title }}</a>
+      </li>
+    }
+  </ul>
+</div>

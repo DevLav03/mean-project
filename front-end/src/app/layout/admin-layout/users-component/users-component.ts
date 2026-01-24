@@ -3,15 +3,17 @@ import { CommonModule } from '@angular/common';
 
 import { RouterModule } from '@angular/router';
 
+import { navbarComponent } from '../navbar-component/navbar-component';
+
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users-component',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, navbarComponent],
   templateUrl: './users-component.html',
   styleUrls: ['./users-component.scss'],
-   standalone: true
+  standalone: true
 })
 export class UsersComponent implements OnInit {
 
@@ -19,6 +21,11 @@ export class UsersComponent implements OnInit {
   page = 1;
   limit = 5;
   sort: 'asc' | 'desc' = 'asc';
+  searchValue: any = '';
+  roleValue: any = '';
+
+  searchText = signal('');
+  selectedRole = signal('');
 
   navItems = [
     { title: 'Dashboard', value: '/dashboard' },
@@ -26,16 +33,18 @@ export class UsersComponent implements OnInit {
     { title: 'Profile', value: '/profile' }
   ];
 
-  
 
-   constructor(private userService: AuthService, private router: Router) { }
 
-   ngOnInit() {
+  constructor(private userService: AuthService, private router: Router) { }
+
+  ngOnInit() {
     this.loadUsers();
   }
 
   loadUsers() {
     this.userService.getAllUserData({
+      search: this.searchText(),
+      role: this.selectedRole(),
       page: this.page,
       limit: this.limit,
       sort: this.sort
@@ -43,6 +52,22 @@ export class UsersComponent implements OnInit {
       this.users.set(res.data);
     });
   }
+
+
+  // handlers
+  onSearch(event: Event) {
+    this.page = 1;
+    this.searchText.set((event.target as HTMLInputElement).value);
+    this.loadUsers();
+  }
+
+  onRoleChange(event: Event) {
+    this.page = 1;
+    this.selectedRole.set((event.target as HTMLSelectElement).value);
+    this.loadUsers();
+  }
+
+
 
   toggleSort() {
     this.sort = this.sort === 'asc' ? 'desc' : 'asc';
@@ -63,7 +88,6 @@ export class UsersComponent implements OnInit {
   }
 
   addUser() {
-    console.log('Navigating to add user form');
     this.router.navigate(['/user-form', 0]);
   }
 
@@ -73,10 +97,8 @@ export class UsersComponent implements OnInit {
 
   deleteUser(data: any) {
     console.log(event);
-   
-    const userId = data._id;
 
-    console.log('Deleting user with ID:', userId);
+    const userId = data._id;
 
     if (userId) {
       this.userService.deleteUser(userId).subscribe({
