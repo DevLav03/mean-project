@@ -3,40 +3,44 @@
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
     <div class="form-group">
       <label for="email">Email:</label>
-      <input
-        type="email"
-        id="email"
-        formControlName="email"
-        placeholder="Enter your email"
-        class="form-control"
-      />
-      <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error-message">
-        <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</span>
-        <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email.</span>
+      <input type="email" id="email" formControlName="email" placeholder="Enter your email" class="form-control" />
+      @if ((loginForm.get('email')?.invalid) && (loginForm.get('email')?.touched || submitted)) {
+      <div class="error-message">
+        @if (loginForm.get('email')?.errors?.['required']) {
+        <span>Email is required.</span>
+        }
+        @if (loginForm.get('email')?.errors?.['email']) {
+        <span>Please enter a valid email.</span>
+        }
       </div>
+      }
     </div>
 
     <div class="form-group">
       <label for="password">Password:</label>
-      <input
-        type="password"
-        id="password"
-        formControlName="password"
-        placeholder="Enter your password"
-        class="form-control"
-      />
-      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
-        <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</span>
-        <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters.</span>
+      <input type="password" id="password" formControlName="password" placeholder="Enter your password"
+        class="form-control" />
+      @if ((loginForm.get('password')?.invalid) && (loginForm.get('password')?.touched || submitted)) {
+      <div class="error-message">
+        @if (loginForm.get('password')?.errors?.['required']) {
+        <span>Password is required.</span>
+        }
+        @if (loginForm.get('password')?.errors?.['minlength']) {
+        <span>Password must be at least 6 characters</span>
+        }
       </div>
+      }
     </div>
 
-    <button type="submit" [disabled]="loginForm.invalid" [disabled]="loading" class="btn btn-primary"> {{ loading ? 'Logging in...' : 'Login' }}</button>
+    <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary">
+      Login</button>
 
-    <p style="color:red" *ngIf="errorMsg">{{ errorMsg }}</p>
-   
+    @if (errorMsg()) {
+    <p style="color:red">{{ errorMsg() }}</p>
+    }
+
   </form>
 
-    <p class="register-link">Don't have an account? <button type="button" (click)="navigateToRegister()" class="link-button">Register here</button></p>
+  <p class="register-link">Don't have an account? <button type="button" (click)="navigateToRegister()"
+      class="link-button">Register here</button></p>
 </div>
-

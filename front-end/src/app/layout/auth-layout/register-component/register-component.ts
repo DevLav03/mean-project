@@ -1,25 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
-
+import { TokenService } from '../../../services/token.service';
 
 
 @Component({
   selector: 'app-register-component',
+  standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './register-component.html',
-  styleUrl: './register-component.scss',
+  styleUrls: ['./register-component.scss'],
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-  errorMsg: any;
+  errorMsg = signal<string | null>(null);
   loading = false;
+  submitted = false;
 
-  constructor(private fb: FormBuilder, private router: Router, private auth: AuthService) {
+  constructor(private fb: FormBuilder, private router: Router, private auth: AuthService, private tokenService: TokenService) {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
@@ -32,21 +34,24 @@ export class RegisterComponent {
   }
 
   onSubmit() {
+     this.submitted = true;
+     this.errorMsg.set(null);
+
     if (this.registerForm.valid) {
-      this.loading = true;
+      //this.loading = true;
 
       this.auth.register(this.registerForm.value).subscribe({
         next: (res) => {
           //console.log('API Response:', res);
 
-          this.loading = false;
+          //this.loading = false;
 
           if(res.status === 'success'){
-            this.errorMsg = '';
+            this.tokenService.setToken(res.token);
             this.router.navigate(['/dashboard']);
-             sessionStorage.setItem('token', res.token);
+           
           }else{
-            this.errorMsg = res.message;
+            this.errorMsg.set(res.message);
           }
 
         },

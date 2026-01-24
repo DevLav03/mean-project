@@ -1,53 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { RouterModule } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
+import { TokenService } from '../../../services/token.service';
 import { Router } from '@angular/router';
 
 
 @Component({
   selector: 'app-profile-component',
+  standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './profile-component.html',
-  styleUrl: './profile-component.scss',
+  styleUrls: ['./profile-component.scss'],
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
 
-  userData: any = {};
+  user = signal<any | null>(null);
 
   navItems = [
-    { title: 'Dashboard', value: '/dashbaord' },
+    { title: 'Dashboard', value: '/dashboard' },
     { title: 'User Data', value: '/users' },
     { title: 'Profile', value: '/profile' }
   ];
 
-  constructor(private userService: AuthService, private router: Router) { }
+  constructor(private userService: AuthService, private router: Router, private tokenS: TokenService) { }
 
   ngOnInit() {
-    this.loadProfile();
-  }
 
-
-  loadProfile() {
     this.userService.getProfile().subscribe({
       next: (res) => {
-        this.userData = res.user;
+        this.user.set(res.user);
 
       },
       error: (err) => {
-        sessionStorage.clear();
+        this.tokenS.clearToken();
         this.router.navigate(['/login']);
-        console.log(err);
-
       }
     });
-  };
+  }
 
-  logout() {
+  onLogout() {
    
-    sessionStorage.clear();
+    this.tokenS.clearToken();
     this.router.navigate(['/login']);
    
   }

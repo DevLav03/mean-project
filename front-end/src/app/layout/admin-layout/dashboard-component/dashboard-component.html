@@ -2,8 +2,8 @@
     <!-- Sidebar Navigation -->
     <div class="sidebar">
         <h2>Admin Panel</h2>
-        <ul *ngFor="let item of navItems">
-            <li><a [routerLink]="item.value">{{item.title}}</a></li>
+            <ul>
+            <li *ngFor="let item of navItems; let i = index"><a [routerLink]="item.value">{{ item.title }}</a></li>
         </ul>
     </div>
     <!-- Main Content Area -->

@@ -1,24 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
+import { TokenService } from '../../../services/token.service';
 
 
 @Component({
   selector: 'app-login-component',
-  imports: [ReactiveFormsModule, CommonModule],
+  standalone: true,
+  imports: [ReactiveFormsModule],
   templateUrl: './login-component.html',
-  styleUrl: './login-component.scss',
+  styleUrls: ['./login-component.scss'],
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  errorMsg: any;
-  loading = false;
+  errorMsg = signal<string | null>(null);
+  //loading = false;
+  submitted = false;
 
-  constructor(private fb: FormBuilder, private router: Router, private auth: AuthService) {
+
+  constructor(private fb: FormBuilder, private router: Router, private auth: AuthService, private tokenService: TokenService  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -30,31 +33,34 @@ export class LoginComponent {
   }
 
   onSubmit() {
+
+    this.submitted = true;
+    this.errorMsg.set(null);
+
     if (this.loginForm.valid) {
 
-      this.loading = true;
+      //this.loading = true;
 
       this.auth.login(this.loginForm.value).subscribe({
         next: (res) => {
-          console.log('API Response:', res);
-
-          this.loading = false;
+          //this.loading = false;
 
           if(res.status === 'success'){
-            this.router.navigate(['/dashboard']);
-             sessionStorage.setItem('token', res.token);
+            this.tokenService.setToken(res.token);
+             this.router.navigate(['/dashboard']);
           }else{
-            this.errorMsg = res.message;
+            this.errorMsg.set(res.message);
+            return;
           }
 
         },
         error: (err) => {
 
-          this.loading = false;
+          //this.loading = false;
 
           console.log('API Error:', err);
 
-          this.errorMsg = err.error.message || err.message;
+          this.errorMsg.set(err.error?.message || err.message);
 
         }
       });

@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
-const authRoutes = require('./routes/auth.js');
+const authRoutes = require('./routes/auth.router.js');
+const userRoutes = require('./routes/user.router.js');
 
 //Server Hosting
 const app = express();
@@ -21,8 +22,10 @@ app.get('/', (req, res) => {
   res.send('MEAN Backend Running');
 });
 
-// User Routes
+// Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+
 
 // Start Local Server
 const PORT = process.env.PORT || 5000;

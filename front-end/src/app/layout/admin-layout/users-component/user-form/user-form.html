@@ -1,0 +1,108 @@
+<div class="wrapper">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li *ngFor="let item of navItems; let i = index"><a [routerLink]="item.value">{{ item.title }}</a></li>
+        </ul>
+    </div>
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="page">
+
+            <div class="register-container">
+                <h2>{{ isEditMode ? 'Edit User' : 'Add User' }}</h2>
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" formControlName="name" placeholder="Enter your name"
+                            class="form-control" />
+                        <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched"
+                            class="error-message">
+                            <span *ngIf="registerForm.get('name')?.errors?.['required']">Name is required.</span>
+                            <span *ngIf="registerForm.get('name')?.errors?.['minlength']">.</span>
+                        </div>
+
+                        @if ((registerForm.get('name')?.invalid) && (registerForm.get('name')?.touched || submitted)) {
+                        <div class="error-message">
+                            @if (registerForm.get('name')?.errors?.['required']) {
+                            <span> Name must be at least 2 characters</span>
+                            }
+                            @if (registerForm.get('name')?.errors?.['minlength']) {
+                            <span>Please enter a valid email.</span>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" formControlName="email" placeholder="Enter your email"
+                            class="form-control" />
+                        @if ((registerForm.get('email')?.invalid) && (registerForm.get('email')?.touched || submitted))
+                        {
+                        <div class="error-message">
+                            @if (registerForm.get('email')?.errors?.['required']) {
+                            <span>Email is required.</span>
+                            }
+                            @if (registerForm.get('email')?.errors?.['email']) {
+                            <span>Please enter a valid email.</span>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" formControlName="password"
+                            placeholder="Enter your password" class="form-control" />
+                        @if ((registerForm.get('password')?.invalid) && (registerForm.get('password')?.touched ||
+                        submitted)) {
+                        <div class="error-message">
+                            @if (registerForm.get('password')?.errors?.['required']) {
+                            <span>Password is required.</span>
+                            }
+                            @if (registerForm.get('password')?.errors?.['minlength']) {
+                            <span>Password must be at least 6 characters</span>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label for="role">Role:</label>
+
+                        <select class="form-control" formControlName="role">
+                            <option value="">Select role</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+
+                        @if (registerForm.get('role')?.invalid && (registerForm.get('role')?.touched || submitted)) {
+                        <div class="error-message">
+                            @if (registerForm.get('role')?.errors?.['required']) {
+                            <span>Role is required.</span>
+                            }
+                        </div>
+                        }
+                    </div>
+
+
+                    <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary">{{ isEditMode ? 'Update' : 'Register' }}</button>
+
+                    @if (errorMsg()) {
+                    <p style="color:red">{{ errorMsg() }}</p>
+                    }
+
+                </form>
+
+                <p class="login-link"><button type="button" (click)="navigateToBackPage()" class="link-button">-- > Back
+                        Page</button></p>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>

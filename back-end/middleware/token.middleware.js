@@ -8,6 +8,7 @@ module.exports = function (req, res, next) {
     return res.status(401).json({ message: 'Token missing' });
   }
 
+  //front-end sends token as Bearer <token>
    const token = authHeader.split(' ')[1];
 
   try {
@@ -17,4 +18,5 @@ module.exports = function (req, res, next) {
   } catch (err) {
     return res.status(401).json({ message: 'Invalid token', error: err } );
   }
+
 };
