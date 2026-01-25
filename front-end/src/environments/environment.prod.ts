@@ -1,0 +1,7 @@
+export const environment = {
+  production: true,
+  apiUrl: 'http://localhost:5000/api'
+};
+
+// ng build --configuration=production
+

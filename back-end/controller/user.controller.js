@@ -1,6 +1,6 @@
 const User = require('../models/user.model');
 
-//GET http://localhost:5000/api/users?search=ravi&status=active&page=1&limit=10
+//GET userTable Data http://localhost:5000/api/users?search=ravi&status=active&page=1&limit=10
 
 exports.getUsers = async (req, res) => {
   try {

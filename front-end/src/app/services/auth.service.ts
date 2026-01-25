@@ -3,10 +3,12 @@ import { HttpClient, HttpHeaders , HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TokenService } from './token.service';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private API = 'http://localhost:5000/api';
+  private API = environment.apiUrl;
 
   constructor(private http: HttpClient, private tokenService: TokenService) { }
 

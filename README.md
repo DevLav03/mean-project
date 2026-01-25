@@ -1,28 +1,67 @@
-# MEAN Stack Application 
+# Admin & User Management System
 
-This is a simple full-stack project built using MEAN stack.
+## MEAN Stack Project
 
-## Technologies Used
-- Angular
-- Node.js
-- Express.js
-- MongoDB
+Used Angular guards and interceptors with JWT-based authentication and role-based access
 
-## Features
-- User Login & Register
-- JWT Authentication
-- REST API
-- MongoDB Database
-- Angular Standalone Architecture
+### Tech Stack
 
-## How to Run
+Angular (Standalone)
+Node.js
+Express.js
+MongoDB
 
-### Backend
-cd backend
+### Features
+
+User Register & Login
+JWT Authentication
+Role Based Access (Admin / User)
+Auth Guard
+HTTP Interceptor
+Profile Management
+Pagination
+Search & Filter
+
+### Authentication Flow
+
+Login → JWT Token
+Token stored in browser
+Interceptor adds token to API
+Guard protects routes
+
+### Angular Used
+
+Standalone Components
+Services
+Reactive Forms
+Guards
+Interceptors
+Environment config
+
+### Backend Used
+
+REST API
+JWT Authentication
+bcrypt password hashing
+Middleware
+MongoDB pagination
+
+### Project Structure
+
+frontend – Angular
+backend – Node & Express
+
+### Run Project
+
+#### Backend
 npm install
-npm run dev
+npm start
 
-### Frontend
-cd frontend
+#### Frontend
 npm install
 ng serve
+
+### Future Scope
+
+Refresh Token
+Deployment

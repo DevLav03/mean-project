@@ -4,6 +4,7 @@ const router = express.Router();
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const User = require('../models/user.model.js');
 const token = require('../middleware/token.middleware.js');
@@ -44,7 +45,7 @@ router.post('/login', async (req, res) => {
   // 3. Create token
   const token = jwt.sign(
     { userId: user._id },
-    'SECRET_KEY',
+    process.env.JWT_SECRET,
     { expiresIn: '1d' }
   );
 
@@ -55,7 +56,8 @@ router.post('/login', async (req, res) => {
     user: {
       id: user._id,
       name: user.name,
-      email: user.email
+      email: user.email,
+      role: user.role
     }
   });
 });
