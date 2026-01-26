@@ -55,11 +55,11 @@ backend – Node & Express
 
 #### Backend
 npm install
-npm start
+npm run dev
 
 #### Frontend
 npm install
-ng serve
+ng serve (or) npm run start
 
 ### Future Scope
 
